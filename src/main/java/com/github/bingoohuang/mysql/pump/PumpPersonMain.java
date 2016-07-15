@@ -73,7 +73,7 @@ public class PumpPersonMain {
             long startMillis = System.currentTimeMillis();
 
             for (int j = 0; j < batchSize; ++j)
-                personDao.addPerson(Person.create(i + "x" + j, "bingoo" + i + "x" + j, 1, "大蓝鲸人"));
+                personDao.addPerson(Person.create(i + "x" + j, "bingoo" + i + "x" + j, "大蓝鲸人", 1));
 
             long endMillis = System.currentTimeMillis();
 

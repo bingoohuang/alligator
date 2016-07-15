@@ -1,17 +1,13 @@
 package com.github.bingoohuang.folding.parti;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class Knapsack {
-    private final List<Item> items;
     private final double value;
+    private final List<Item> items;
     private final int weight;
     private final int available;
-
-    private Knapsack(double value, List<Item> items, int weight, int available) {
-        this.value = value;
-        this.items = items;
-        this.weight = weight;
-        this.available = available;
-    }
 
     private Knapsack add(Item item) {
         return new Knapsack(this.value + item.value,

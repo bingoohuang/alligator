@@ -86,7 +86,7 @@ public class PumpOrderMain {
 
     private void parseArgs(String[] args) throws IOException {
         OptionParser parser = new OptionParser();
-        AbstractOptionSpec<Void> forHelp = parser.accepts("help", "show help").forHelp();
+        AbstractOptionSpec<Void> helpOption = parser.accepts("help", "show help").forHelp();
         OptionSpec<Integer> batchSizeOption = parser.accepts("batchSize", "几个批次")
             .withOptionalArg().ofType(Integer.class).defaultsTo(10);
         OptionSpec<Integer> batchNumOption = parser.accepts("batchNum", "每个批次数量")
@@ -97,7 +97,7 @@ public class PumpOrderMain {
             .withOptionalArg().ofType(String.class).defaultsTo("192.168.99.100:13306");
 
         OptionSet options = parser.parse(args);
-        if (forHelp.isForHelp()) {
+        if (options.has(helpOption)) {
             parser.printHelpOn(System.out);
             System.exit(0);
         }
