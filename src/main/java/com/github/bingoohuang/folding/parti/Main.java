@@ -1,10 +1,12 @@
 package com.github.bingoohuang.folding.parti;
 
+import lombok.val;
+
 public class Main {
     // https://dzone.com/articles/folding-the-universe-part-i
     public static void main(String... args) {
-        int capacity = 400;
-        final List<Item> items = List.<Item>list()
+        val capacity = 400;
+        val items = List.<Item>list()
                 .cons(new Item("map", 9, 150.0))
                 .cons(new Item("compass", 13, 35.0))
                 .cons(new Item("water", 153, 200.0))

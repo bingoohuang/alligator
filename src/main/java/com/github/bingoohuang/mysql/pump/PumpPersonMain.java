@@ -2,10 +2,8 @@ package com.github.bingoohuang.mysql.pump;
 
 import com.github.bingoohuang.utils.Durations;
 import joptsimple.OptionParser;
-import joptsimple.OptionSet;
-import joptsimple.OptionSpec;
+import lombok.val;
 import org.n3r.eql.Eql;
-import org.n3r.eql.EqlTran;
 import org.n3r.eql.Eqll;
 import org.n3r.eql.config.EqlJdbcConfig;
 import org.n3r.eql.eqler.EqlerFactory;
@@ -36,16 +34,16 @@ public class PumpPersonMain {
     private void pumpByBatch() {
         Eqll.choose(dbaConfig);
 
-        PersonDao personDao = EqlerFactory.getEqler(PersonDao.class);
+        val personDao = EqlerFactory.getEqler(PersonDao.class);
 
         personDao.truncatePerson();
 
         for (int i = 0; i < batchNum; ++i) {
-            long startMillis = System.currentTimeMillis();
+            val startMillis = System.currentTimeMillis();
 
-            EqlTran eqlTran = new Eql(dbaConfig).newTran();
+            val eqlTran = new Eql(dbaConfig).newTran();
             eqlTran.start();
-            EqlBatch eqlBatch = new EqlBatch(batchSize);
+            val eqlBatch = new EqlBatch(batchSize);
 
             for (int j = 0; j < batchSize; ++j)
                 new Eql(dbaConfig).useBatch(eqlBatch).useTran(eqlTran)
@@ -55,7 +53,7 @@ public class PumpPersonMain {
             eqlBatch.executeBatch();
             eqlTran.commit();
 
-            long endMillis = System.currentTimeMillis();
+            val endMillis = System.currentTimeMillis();
 
             System.out.println("Batch:" + i + ", BatchSize:" + batchSize
                 + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
@@ -65,17 +63,17 @@ public class PumpPersonMain {
     private void pumpByDao() {
         Eqll.choose(dbaConfig);
 
-        PersonDao personDao = EqlerFactory.getEqler(PersonDao.class);
+        val personDao = EqlerFactory.getEqler(PersonDao.class);
 
         personDao.truncatePerson();
 
         for (int i = 0; i < batchNum; ++i) {
-            long startMillis = System.currentTimeMillis();
+            val startMillis = System.currentTimeMillis();
 
             for (int j = 0; j < batchSize; ++j)
                 personDao.addPerson(Person.create(i + "x" + j, "bingoo" + i + "x" + j, "大蓝鲸人", 1));
 
-            long endMillis = System.currentTimeMillis();
+            val endMillis = System.currentTimeMillis();
 
             System.out.println("Batch:" + i + ", BatchSize:" + batchSize
                 + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
@@ -83,13 +81,13 @@ public class PumpPersonMain {
     }
 
     private void parseArgs(String[] args) {
-        OptionParser parser = new OptionParser();
-        OptionSpec<Integer> batchSizeOption = parser.accepts("batchSize")
+        val parser = new OptionParser();
+        val batchSizeOption = parser.accepts("batchSize")
             .withOptionalArg().ofType(Integer.class).defaultsTo(100000);
-        OptionSpec<Integer> batchNumOption = parser.accepts("batchNum")
+        val batchNumOption = parser.accepts("batchNum")
             .withOptionalArg().ofType(Integer.class).defaultsTo(1000);
 
-        OptionSet options = parser.parse(args);
+        val options = parser.parse(args);
         batchSize = batchSizeOption.value(options);
         batchNum = batchNumOption.value(options);
     }

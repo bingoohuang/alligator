@@ -1,12 +1,9 @@
 package com.github.bingoohuang.mysql.pump;
 
 import com.github.bingoohuang.utils.Durations;
-import joptsimple.AbstractOptionSpec;
 import joptsimple.OptionParser;
-import joptsimple.OptionSet;
-import joptsimple.OptionSpec;
+import lombok.val;
 import org.n3r.eql.Eql;
-import org.n3r.eql.EqlTran;
 import org.n3r.eql.Eqll;
 import org.n3r.eql.config.EqlJdbcConfig;
 import org.n3r.eql.eqler.EqlerFactory;
@@ -37,14 +34,14 @@ public class PumpOrderMain {
     private void pumpByBatch() {
         truncateOrderAtFirstBatch();
 
-        Random random = new Random();
+        val random = new Random();
 
         for (int i = batchStart, ii = batchStart + batchNum; i < ii; ++i) {
-            long startMillis = System.currentTimeMillis();
+            val startMillis = System.currentTimeMillis();
 
             batchPump(random, i);
 
-            long endMillis = System.currentTimeMillis();
+            val endMillis = System.currentTimeMillis();
 
             System.out.println("Batch:" + i + ", BatchSize:" + batchSize
                 + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
@@ -55,15 +52,15 @@ public class PumpOrderMain {
         Eqll.choose(dbaConfig);
 
         if (batchStart == 0) {
-            OrderDao personDao = EqlerFactory.getEqler(OrderDao.class);
+            val personDao = EqlerFactory.getEqler(OrderDao.class);
             personDao.truncateOrder();
         }
     }
 
     private void batchPump(Random random, int batchNo) {
-        EqlTran eqlTran = new Eql(dbaConfig).newTran();
+        val eqlTran = new Eql(dbaConfig).newTran();
         eqlTran.start();
-        EqlBatch eqlBatch = new EqlBatch(batchSize);
+        val eqlBatch = new EqlBatch(batchSize);
 
         for (int j = 0; j < batchSize; ++j) {
             int orderId = batchNo * batchSize + j;
@@ -83,20 +80,19 @@ public class PumpOrderMain {
         eqlTran.commit();
     }
 
-
     private void parseArgs(String[] args) throws IOException {
-        OptionParser parser = new OptionParser();
-        AbstractOptionSpec<Void> helpOption = parser.accepts("help", "show help").forHelp();
-        OptionSpec<Integer> batchSizeOption = parser.accepts("batchSize", "几个批次")
+        val parser = new OptionParser();
+        val helpOption = parser.accepts("help", "show help").forHelp();
+        val batchSizeOption = parser.accepts("batchSize", "几个批次")
             .withOptionalArg().ofType(Integer.class).defaultsTo(10);
-        OptionSpec<Integer> batchNumOption = parser.accepts("batchNum", "每个批次数量")
+        val batchNumOption = parser.accepts("batchNum", "每个批次数量")
             .withOptionalArg().ofType(Integer.class).defaultsTo(1);
-        OptionSpec<Integer> batchStartOption = parser.accepts("batchStart", "批次开始序号")
+        val batchStartOption = parser.accepts("batchStart", "批次开始序号")
             .withOptionalArg().ofType(Integer.class).defaultsTo(0);
-        OptionSpec<String> mysqlAddrOption = parser.accepts("mysqlAddr", "MySQLl连接地址")
+        val mysqlAddrOption = parser.accepts("mysqlAddr", "MySQLl连接地址")
             .withOptionalArg().ofType(String.class).defaultsTo("192.168.99.100:13306");
 
-        OptionSet options = parser.parse(args);
+        val options = parser.parse(args);
         if (options.has(helpOption)) {
             parser.printHelpOn(System.out);
             System.exit(0);
