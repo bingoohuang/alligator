@@ -1,0 +1,36 @@
+dataSource:
+  ds_0: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://192.168.99.100:3300/db0?useSSL=false&useUnicode=true&characterEncoding=UTF-8&connectTimeout=3000&socketTimeout=3000&autoReconnect=true
+    username: root
+    password: 13Nzs14X><y
+  ds_1: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://192.168.99.100:3301/db1?useSSL=false&useUnicode=true&characterEncoding=UTF-8&connectTimeout=3000&socketTimeout=3000&autoReconnect=true
+    username: root
+    password: 15Tkl16S^3
+
+tables:
+  t_order:
+    actualTables: t_order_${0..1}
+    tableStrategy:
+      shardingColumns: order_id
+      algorithmExpression: t_order_${order_id.longValue() % 2}
+
+  t_order_item:
+    actualTables: t_order_item_${0..1}
+    # 绑定表中其余的表的策略与第一张表的策略相同
+    tableStrategy:
+      shardingColumns: order_id
+      algorithmExpression: t_order_item_${order_id.longValue() % 2}
+
+bindingTables:
+  - tableNames: t_order,t_order_item
+
+# 默认数据库分片策略
+defaultDatabaseStrategy:
+  shardingColumns: user_id
+  algorithmExpression: ds_${user_id.longValue() % 2}
+
+props:
+  metrics.enable: false

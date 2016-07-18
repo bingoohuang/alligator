@@ -14,5 +14,9 @@
         <appender-ref ref="Console"/>
     </logger>
 
+    <logger name="com.dangdang.ddframe.rdb.sharding" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+    </logger>
+
 
 </configuration>

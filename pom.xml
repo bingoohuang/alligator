@@ -16,6 +16,17 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dangdang</groupId>
+            <artifactId>sharding-jdbc-config-yaml</artifactId>
+            <version>1.3.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>19.0</version>
@@ -68,7 +79,8 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.github.bingoohuang.mysql.pump.PumpOrderMain</mainClass>
+                                    <!--<mainClass>com.github.bingoohuang.mysql.pump.PumpOrderMain</mainClass>-->
+                                    <mainClass>com.github.bingoohuang.shardingjdbc.ShardingJdbcMain</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
