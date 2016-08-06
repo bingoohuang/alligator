@@ -3,8 +3,8 @@ $ docker pull mysql
 
 
 Starting a MySQL instance is simple:
-$ docker run -p 3300:3306 --name mysql0 -e MYSQL_ROOT_PASSWORD="13Nzs14X><y-d mysql
-$ docker run -p 3301:3306 --name mysql1 -e MYSQL_ROOT_PASSWORD="15Tkl16S^3-d mysql
+$ docker run -p 3300:3306 --name mysql0 -e MYSQL_ROOT_PASSWORD="13Nzs14X><y" -d mysql
+$ docker run -p 3301:3306 --name mysql1 -e MYSQL_ROOT_PASSWORD="15Tkl16S^3" -d mysql
 
 十三能织素，十四学裁衣
 13Nzs14X><y
