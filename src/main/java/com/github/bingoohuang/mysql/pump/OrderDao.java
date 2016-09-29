@@ -10,7 +10,7 @@ public interface OrderDao {
     void truncateOrder();
 
     @Sql("insert into t_order(order_id, order_no, buyer_id, seller_id, create_time, order_desc ) "
-        + "values(#orderId#, #orderNo#,  ##buyerId, #sellerId#, #createTime#, #orderDesc#);")
+            + "values(#orderId#, #orderNo#,  ##buyerId, #sellerId#, #createTime#, #orderDesc#);")
     void addOrder(Order order);
 }
 

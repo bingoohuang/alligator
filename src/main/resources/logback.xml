@@ -2,7 +2,8 @@
 <configuration>
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger %msg%n
+            </pattern>
         </encoder>
     </appender>
 
@@ -14,7 +15,8 @@
         <appender-ref ref="Console"/>
     </logger>
 
-    <logger name="com.dangdang.ddframe.rdb.sharding" level="DEBUG" additivity="false">
+    <logger name="com.dangdang.ddframe.rdb.sharding" level="DEBUG"
+            additivity="false">
         <appender-ref ref="Console"/>
     </logger>
 

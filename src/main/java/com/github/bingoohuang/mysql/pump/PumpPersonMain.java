@@ -25,11 +25,11 @@ public class PumpPersonMain {
     }
 
     EqlJdbcConfig dbaConfig = new EqlJdbcConfig(
-        "com.mysql.cj.jdbc.Driver",
-        "jdbc:mysql://192.168.99.100:13306/dba?useSSL=false" +
-            "&useUnicode=true&characterEncoding=UTF-8" +
-            "&connectTimeout=3000&socketTimeout=3000&autoReconnect=true",
-        "root", "my-secret-pw");
+            "com.mysql.cj.jdbc.Driver",
+            "jdbc:mysql://192.168.99.100:13306/dba?useSSL=false" +
+                    "&useUnicode=true&characterEncoding=UTF-8" +
+                    "&connectTimeout=3000&socketTimeout=3000&autoReconnect=true",
+            "root", "my-secret-pw");
 
     private void pumpByBatch() {
         Eqll.choose(dbaConfig);
@@ -47,8 +47,8 @@ public class PumpPersonMain {
 
             for (int j = 0; j < batchSize; ++j)
                 new Eql(dbaConfig).useBatch(eqlBatch).useTran(eqlTran)
-                    .params(i + "x" + j, "bingoo" + i + "x" + j, 1, "大蓝鲸人")
-                    .execute("insert into person(id, name, sex, addr) values(##, ##, ##, ##)");
+                        .params(i + "x" + j, "bingoo" + i + "x" + j, 1, "大蓝鲸人")
+                        .execute("insert into person(id, name, sex, addr) values(##, ##, ##, ##)");
 
             eqlBatch.executeBatch();
             eqlTran.commit();
@@ -56,7 +56,7 @@ public class PumpPersonMain {
             val endMillis = System.currentTimeMillis();
 
             System.out.println("Batch:" + i + ", BatchSize:" + batchSize
-                + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
+                    + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
         }
     }
 
@@ -76,16 +76,16 @@ public class PumpPersonMain {
             val endMillis = System.currentTimeMillis();
 
             System.out.println("Batch:" + i + ", BatchSize:" + batchSize
-                + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
+                    + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
         }
     }
 
     private void parseArgs(String[] args) {
         val parser = new OptionParser();
         val batchSizeOption = parser.accepts("batchSize")
-            .withOptionalArg().ofType(Integer.class).defaultsTo(100000);
+                .withOptionalArg().ofType(Integer.class).defaultsTo(100000);
         val batchNumOption = parser.accepts("batchNum")
-            .withOptionalArg().ofType(Integer.class).defaultsTo(1000);
+                .withOptionalArg().ofType(Integer.class).defaultsTo(1000);
 
         val options = parser.parse(args);
         batchSize = batchSizeOption.value(options);

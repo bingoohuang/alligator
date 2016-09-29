@@ -3,7 +3,10 @@ package com.github.bingoohuang.redis.pipe;
 import com.github.bingoohuang.utils.Durations;
 import com.google.common.base.Splitter;
 import com.google.common.net.HostAndPort;
-import joptsimple.*;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
+import joptsimple.OptionSpecBuilder;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
@@ -54,7 +57,8 @@ public class Pipe {
 
             String line;
             for (int cnt = 0; (line = br.readLine()) != null && cnt < maxValue; ++cnt) {
-                if (useRedisHash) redisHash(line, p); else redisSet(line, p);
+                if (useRedisHash) redisHash(line, p);
+                else redisSet(line, p);
             }
 
             p.sync();

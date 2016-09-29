@@ -1,6 +1,7 @@
 package com.github.bingoohuang.utils;
 
 import com.google.common.io.Files;
+import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.val;
 
@@ -23,10 +24,8 @@ public class U {
 
     @SneakyThrows
     public static boolean exec(DataSource dataSource, String sql) {
-        try (
-            val conn = dataSource.getConnection();
-            val ps = conn.prepareStatement(sql)) {
-            return ps.execute();
-        }
+        @Cleanup val conn = dataSource.getConnection();
+        @Cleanup val ps = conn.prepareStatement(sql);
+        return ps.execute();
     }
 }

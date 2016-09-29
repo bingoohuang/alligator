@@ -44,7 +44,7 @@ public class PumpOrderMain {
             val endMillis = System.currentTimeMillis();
 
             System.out.println("Batch:" + i + ", BatchSize:" + batchSize
-                + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
+                    + ", Cost:" + Durations.readableDuration(endMillis - startMillis));
         }
     }
 
@@ -69,11 +69,11 @@ public class PumpOrderMain {
             long sellerId = Math.abs(random.nextLong());
             String orderDesc = "大蓝鲸人" + j;
             new Eql(dbaConfig)
-                .useBatch(eqlBatch).useTran(eqlTran)
-                .params(orderId, orderNo, buyerId, sellerId, orderDesc)
-                .execute("insert into t_order(order_id, order_no, "
-                    + "buyer_id, seller_id, create_time, order_desc) "
-                    + "values(##, ##,  ##, ##, now(), ##)");
+                    .useBatch(eqlBatch).useTran(eqlTran)
+                    .params(orderId, orderNo, buyerId, sellerId, orderDesc)
+                    .execute("insert into t_order(order_id, order_no, "
+                            + "buyer_id, seller_id, create_time, order_desc) "
+                            + "values(##, ##,  ##, ##, now(), ##)");
         }
 
         eqlBatch.executeBatch();
@@ -84,13 +84,13 @@ public class PumpOrderMain {
         val parser = new OptionParser();
         val helpOption = parser.accepts("help", "show help").forHelp();
         val batchSizeOption = parser.accepts("batchSize", "几个批次")
-            .withOptionalArg().ofType(Integer.class).defaultsTo(10);
+                .withOptionalArg().ofType(Integer.class).defaultsTo(10);
         val batchNumOption = parser.accepts("batchNum", "每个批次数量")
-            .withOptionalArg().ofType(Integer.class).defaultsTo(1);
+                .withOptionalArg().ofType(Integer.class).defaultsTo(1);
         val batchStartOption = parser.accepts("batchStart", "批次开始序号")
-            .withOptionalArg().ofType(Integer.class).defaultsTo(0);
+                .withOptionalArg().ofType(Integer.class).defaultsTo(0);
         val mysqlAddrOption = parser.accepts("mysqlAddr", "MySQLl连接地址")
-            .withOptionalArg().ofType(String.class).defaultsTo("192.168.99.100:13306");
+                .withOptionalArg().ofType(String.class).defaultsTo("192.168.99.100:13306");
 
         val options = parser.parse(args);
         if (options.has(helpOption)) {
@@ -104,10 +104,10 @@ public class PumpOrderMain {
         mysqlAddr = mysqlAddrOption.value(options);
 
         dbaConfig = new EqlJdbcConfig(
-            "com.mysql.cj.jdbc.Driver",
-            "jdbc:mysql://" + mysqlAddr + "/dba?useSSL=false" +
-                "&useUnicode=true&characterEncoding=UTF-8" +
-                "&connectTimeout=3000&socketTimeout=3000&autoReconnect=true",
-            "root", "my-secret-pw");
+                "com.mysql.cj.jdbc.Driver",
+                "jdbc:mysql://" + mysqlAddr + "/dba?useSSL=false" +
+                        "&useUnicode=true&characterEncoding=UTF-8" +
+                        "&connectTimeout=3000&socketTimeout=3000&autoReconnect=true",
+                "root", "my-secret-pw");
     }
 }

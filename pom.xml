@@ -10,6 +10,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.shyiko</groupId>
+            <artifactId>mysql-binlog-connector-java</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
@@ -91,7 +96,9 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <!--<mainClass>com.github.bingoohuang.mysql.pump.PumpOrderMain</mainClass>-->
-                                    <mainClass>com.github.bingoohuang.shardingjdbc.ShardingJdbcMain</mainClass>
+                                    <mainClass>
+                                        com.github.bingoohuang.shardingjdbc.ShardingJdbcMain
+                                    </mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

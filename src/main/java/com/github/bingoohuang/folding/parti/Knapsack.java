@@ -11,9 +11,9 @@ public class Knapsack {
 
     private Knapsack add(Item item) {
         return new Knapsack(this.value + item.value,
-            this.items.cons(item),
-            this.weight + item.weight,
-            this.available - item.weight);
+                this.items.cons(item),
+                this.weight + item.weight,
+                this.available - item.weight);
     }
 
     private boolean canAccept(Item item) {
@@ -26,8 +26,8 @@ public class Knapsack {
 
     public String toString() {
         return String.format("Total value: %s\nTotal weight: %s\nItems:\n%s",
-            value, weight, items.foldRight("",
-                (item, string) -> String.format("\t%s\n%s", item, string)));
+                value, weight, items.foldRight("",
+                        (item, string) -> String.format("\t%s\n%s", item, string)));
     }
 
     private static Knapsack empty(int capacity) {
@@ -36,12 +36,12 @@ public class Knapsack {
 
     static Knapsack pack(List<Item> items, Knapsack knapsack) {
         return items.head().flatMap(
-            item -> items.tail().map(
-                itemList -> knapsack.canAccept(item)
-                    ? pack(itemList, knapsack).maxValue(
-                        pack(itemList, knapsack.add(item)))
-                    : pack(itemList, knapsack)))
-            .foldRight(knapsack, (a, b) -> a);
+                item -> items.tail().map(
+                        itemList -> knapsack.canAccept(item)
+                                ? pack(itemList, knapsack).maxValue(
+                                pack(itemList, knapsack.add(item)))
+                                : pack(itemList, knapsack)))
+                .foldRight(knapsack, (a, b) -> a);
     }
 
     public static Knapsack pack(List<Item> items, int knapsackCapacity) {
