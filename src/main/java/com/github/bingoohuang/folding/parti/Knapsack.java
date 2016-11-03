@@ -25,9 +25,9 @@ public class Knapsack {
     }
 
     public String toString() {
-        return String.format("Total value: %s\nTotal weight: %s\nItems:\n%s",
+        return String.format("Total value: %s%nTotal weight: %s%nItems:\n%s",
                 value, weight, items.foldRight("",
-                        (item, string) -> String.format("\t%s\n%s", item, string)));
+                        (item, string) -> String.format("\t%s%n%s", item, string)));
     }
 
     private static Knapsack empty(int capacity) {

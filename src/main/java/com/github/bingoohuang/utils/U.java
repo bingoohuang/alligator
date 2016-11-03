@@ -14,7 +14,7 @@ public class U {
         val tempFile = File.createTempFile("stream2file", ".tmp");
         tempFile.deleteOnExit();
 
-        val resStream = U.class.getResourceAsStream(classpathFileName);
+        @Cleanup val resStream = U.class.getResourceAsStream(classpathFileName);
         val buffer = new byte[resStream.available()];
         resStream.read(buffer);
 
