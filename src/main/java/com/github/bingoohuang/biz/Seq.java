@@ -33,8 +33,7 @@ public class Seq {
      * @return SEQ2下一个取值(从1开始)，返回0表示序列不存在，或者已经追上主序列
      */
     public long nextSeq2(String seqName) {
-        String result = seqDao.nextSeq2(seqName);
-        return result == null ? 0 : Long.parseLong(result);
+        return nextSeqX(seqName, "SEQ2");
     }
 
     /**
@@ -44,9 +43,14 @@ public class Seq {
      * @return SEQ3下一个取值(从1开始)，返回0表示序列不存在，或者已经追上主序列
      */
     public long nextSeq3(String seqName) {
-        String result = seqDao.nextSeq3(seqName);
+        return nextSeqX(seqName, "SEQ3");
+    }
+
+    private long nextSeqX(String seqName, String seqField) {
+        String result = seqDao.nextSeqX(seqName, seqField);
         return result == null ? 0 : Long.parseLong(result);
     }
+
 
     @Synchronized("seqNames")
     private void createSeq(String seqName) {
@@ -54,12 +58,8 @@ public class Seq {
             seqDao.createSeq(seqName);
         } catch (Exception ex) {
             // java.sql.SQLException: ORA-00001: 违反唯一约束条件 (SYSTEM.SYS_C007599)
-            if (ex.toString().contains("ORA-00001")) {
-                // 说明已经被人抢先增加了
-                seqNames.add(seqName);
-                return;
-            }
-            throw ex;
+            // 说明已经被人抢先增加了
+            if (!ex.toString().contains("ORA-00001")) throw ex;
         }
         seqNames.add(seqName);
     }
