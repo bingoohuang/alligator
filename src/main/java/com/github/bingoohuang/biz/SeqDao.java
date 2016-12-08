@@ -30,9 +30,9 @@ public interface SeqDao {
     @Sql("INSERT INTO MY_SEQ(NAME) VALUES(##)")
     void createSeq(String seqName);
 
-    @Sql("{CALL UPDATE MY_SEQ SET SEQ1 = SEQ1 + 1 WHERE NAME = ## RETURNING SEQ1 INTO #:OUT# }")
-    String nextSeq1(String seqName);
+    @Sql("{CALL UPDATE MY_SEQ SET SEQ1 = SEQ1 + 1 WHERE NAME = ## RETURNING SEQ1 INTO #:OUT(Long)# }")
+    long nextSeq1(String seqName);
 
-    @Sql("{CALL UPDATE MY_SEQ SET $1$ = $1$ + 1 WHERE NAME = ## AND $1$ < SEQ1 RETURNING $1$ INTO #:OUT# }")
-    String nextSeqX(String seqName, @Dynamic String seqField);
+    @Sql("{CALL UPDATE MY_SEQ SET $1$ = $1$ + 1 WHERE NAME = ## AND $1$ < SEQ1 RETURNING $1$ INTO #:OUT(Long)# }")
+    Long nextSeqX(String seqName, @Dynamic String seqField);
 }

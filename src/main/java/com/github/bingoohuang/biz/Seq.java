@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import org.n3r.eql.eqler.EqlerFactory;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author bingoohuang [bingoohuang@gmail.com] Created on 2016/12/8.
@@ -12,7 +13,7 @@ import java.util.HashSet;
 @UtilityClass
 public class Seq {
     SeqDao seqDao = EqlerFactory.getEqler(SeqDao.class);
-    HashSet<String/* seqName */> seqNames = new HashSet<>(seqDao.selectSeqNames());
+    Set<String> seqNames = new HashSet<>(seqDao.selectSeqNames());
 
     /**
      * 获取SEQ1（主序列），当名字不存在时，增加名字。
@@ -23,7 +24,7 @@ public class Seq {
     public long nextSeq1(String seqName) {
         if (!seqNames.contains(seqName)) createSeq(seqName);
 
-        return Long.parseLong(seqDao.nextSeq1(seqName));
+        return seqDao.nextSeq1(seqName);
     }
 
     /**
@@ -47,8 +48,8 @@ public class Seq {
     }
 
     private long nextSeqX(String seqName, String seqField) {
-        String result = seqDao.nextSeqX(seqName, seqField);
-        return result == null ? 0 : Long.parseLong(result);
+        Long seqX = seqDao.nextSeqX(seqName, seqField);
+        return seqX == null ? 0 : seqX.longValue();
     }
 
 
@@ -65,6 +66,7 @@ public class Seq {
     }
 
     public static void main(String[] args) {
+        System.out.println(Seq.nextSeq2("ppp"));
         System.out.println(Seq.nextSeq1("XXX"));
         System.out.println(Seq.nextSeq2("XXX"));
         System.out.println(Seq.nextSeq3("XXX"));
