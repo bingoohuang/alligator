@@ -1,10 +1,11 @@
 package learning.invokedynamic;
 
 import lombok.SneakyThrows;
+import lombok.val;
 
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+
+import static java.lang.invoke.MethodType.methodType;
 
 class HW {
     public void hello1() {
@@ -13,12 +14,10 @@ class HW {
 }
 
 public class MHD2 {
-    @SneakyThrows
-    public static void main(String[] args) {
+    @SneakyThrows public static void main(String[] args) {
         HW hw = new HW();
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        MethodHandle mh = lookup.findVirtual(HW.class, "hello1",
-                MethodType.methodType(void.class));
+        val lookup = MethodHandles.lookup();
+        val mh = lookup.findVirtual(HW.class, "hello1", methodType(void.class));
         mh.invoke(hw);
     }
 }

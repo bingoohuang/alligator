@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Pipe {
     public static void main(String[] args) throws IOException {
@@ -81,7 +82,7 @@ public class Pipe {
     public static void redisHash(String line, Pipeline p) {
         val parts = splitter.splitToList(line);
         int partsSize = parts.size();
-        val map = new HashMap<>(partsSize / 2 - 1);
+        Map<String, String> map = new HashMap<>(partsSize / 2 - 1);
         for (int i = 2, ii = partsSize; i + 1 < ii; i += 2) {
             map.put(parts.get(i), parts.get(i + 1));
         }

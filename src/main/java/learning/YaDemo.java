@@ -40,11 +40,11 @@ public class YaDemo {
         val head = "DBO$";
         val maxSize = 50;
 
-        val key1 = head + serviceWithPkg + "." + method;
+        val key1 = head + serviceWithPkg + '.' + method;
         if (key1.length() <= maxSize) return key1;
 
         val serviceWoPkg = substringAfterLast(serviceWithPkg, "/");
-        val key2 = head + serviceWoPkg + "." + method;
+        val key2 = head + serviceWoPkg + '.' + method;
         if (key2.length() <= maxSize) return key2;
 
         val key3 = head + method;
