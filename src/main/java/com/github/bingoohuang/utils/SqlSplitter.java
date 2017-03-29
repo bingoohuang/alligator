@@ -24,7 +24,7 @@ public class SqlSplitter {
             } else if (ch == separateChar) {
                 if (!inQuoted) {
                     String sql = sqlsString.substring(pos, i);
-                    if (StringUtils.isNotBlank(sql)) sqls.add(sql);
+                    if (StringUtils.isNotBlank(sql)) sqls.add(sql.trim());
                     pos = i + 1;
                 }
             }
@@ -32,7 +32,7 @@ public class SqlSplitter {
 
         if (pos < ii) {
             String sql = sqlsString.substring(pos);
-            if (StringUtils.isNotBlank(sql)) sqls.add(sql);
+            if (StringUtils.isNotBlank(sql)) sqls.add(sql.trim());
         }
 
 
