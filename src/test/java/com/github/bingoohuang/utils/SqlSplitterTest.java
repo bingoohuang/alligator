@@ -20,11 +20,11 @@ public class SqlSplitterTest {
     @Test
     public void test() {
         String sql = "ALTER TABLE `tt_l_mbrcard_chg` \n" +
-                "ADD COLUMN `PREFERENTIAL_WAY` CHAR(3) NULL COMMENT '优惠方式:0:现金券;1:减免,2:赠送金额 ;' AFTER `PAY_TYPE`; ";
+                "ADD COLUMN `PREFERENTIAL_WAY` CHAR(3) NULL COMMENT '优\\惠方式:0:现金券;1:减免,2:赠送金额 ;' AFTER `PAY_TYPE`; ";
 
         List<String> split = new SqlSplitter().split(sql, ';');
         assertThat(split).containsExactly("ALTER TABLE `tt_l_mbrcard_chg` \n" +
-                "ADD COLUMN `PREFERENTIAL_WAY` CHAR(3) NULL COMMENT '优惠方式:0:现金券;1:减免,2:赠送金额 ;' AFTER `PAY_TYPE`");
+                "ADD COLUMN `PREFERENTIAL_WAY` CHAR(3) NULL COMMENT '优\\惠方式:0:现金券;1:减免,2:赠送金额 ;' AFTER `PAY_TYPE`");
     }
 
     @Test

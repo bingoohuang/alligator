@@ -21,7 +21,7 @@ public class SqlSplitter {
             if (ch == '\\') {
                 ++i;
             } else if (ch == '\'') {
-                if (!inQuoted && i + 1 < len && sqlsString.charAt(i + 1) == '\'') {
+                if (inQuoted && i + 1 < len && sqlsString.charAt(i + 1) == '\'') {
                     ++i; // jump espace for literal apostrophe, or single quote
                 } else {
                     inQuoted = !inQuoted;
