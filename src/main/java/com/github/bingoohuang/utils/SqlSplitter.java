@@ -1,6 +1,7 @@
 package com.github.bingoohuang.utils;
 
 import com.google.common.collect.Lists;
+import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -14,28 +15,32 @@ public class SqlSplitter {
 
         boolean inQuoted = false;
         int pos = 0;
-        int ii = sqlsString.length();
-        for (int i = 0; i < ii; ++i) {
+        val len = sqlsString.length();
+        for (int i = 0; i < len; ++i) {
             char ch = sqlsString.charAt(i);
             if (ch == '\\') {
                 ++i;
-            } else if (ch == '`' || ch == '\'') {
-                inQuoted = !inQuoted;
-            } else if (ch == separateChar) {
-                if (!inQuoted) {
-                    String sql = sqlsString.substring(pos, i);
-                    if (StringUtils.isNotBlank(sql)) sqls.add(sql.trim());
-                    pos = i + 1;
+            } else if (ch == '\'') {
+                if (!inQuoted && i + 1 < len && sqlsString.charAt(i + 1) == '\'') {
+                    ++i; // jump espace for literal apostrophe, or single quote
+                } else {
+                    inQuoted = !inQuoted;
                 }
+            } else if (!inQuoted && ch == separateChar) {
+                tryAddSql(sqls, sqlsString.substring(pos, i));
+                pos = i + 1;
             }
         }
 
-        if (pos < ii) {
-            String sql = sqlsString.substring(pos);
-            if (StringUtils.isNotBlank(sql)) sqls.add(sql.trim());
+        if (pos < len) {
+            tryAddSql(sqls, sqlsString.substring(pos));
         }
-
-
         return sqls;
+    }
+
+    private void tryAddSql(List<String> sqls, String sql) {
+        if (StringUtils.isBlank(sql)) return;
+
+        sqls.add(sql.trim());
     }
 }
