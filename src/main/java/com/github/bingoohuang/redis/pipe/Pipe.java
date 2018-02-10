@@ -48,7 +48,7 @@ public class Pipe {
         @Cleanup val isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
         @Cleanup val br = new BufferedReader(isr);
 
-        String redisHost = redisConfig.getHostText();
+        String redisHost = redisConfig.getHost();
         int redisPort = redisConfig.getPort();
         @Cleanup val jedis = new Jedis(redisHost, redisPort, 400000);
         @Cleanup Pipeline p = jedis.pipelined();
